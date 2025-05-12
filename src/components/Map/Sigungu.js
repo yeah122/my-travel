@@ -1,35 +1,42 @@
 import { useRef, useEffect } from "react";
+import Tooltip from "@/components/Tooltip";
 
 export default function SigunguMap({ ctpCode, data, onLoaded }) {
-    const svgRef = useRef();
+    const svgRef = useRef()
+    const tooltipRef = useRef()
+    const containerRef = useRef()
 
     useEffect(() => {
-        const objectElement = svgRef.current;
+        const objectElement = svgRef.current
 
         const handleLoad = () => {
-            if (!ctpCode || !data) return;
+            if (!ctpCode || !data) return
 
-            const svg = objectElement?.contentDocument?.querySelector("svg");
+            const svg = objectElement?.contentDocument?.querySelector("svg")
             if (!svg) return;
+            tooltipRef.current.hide()
 
-            const allPaths = svg.querySelectorAll("path[id]");
+            const allPaths = svg.querySelectorAll("path[id]")
             allPaths.forEach((p) => {
                 if (!data.districts.find((d) => d.SIG_CD === p.id)) {
-                    p.style.display = "none"; // 해당 시도의 시군구 외 나머지 숨김
+                    p.style.display = "none" // 해당 시도의 시군구 외 나머지 숨김
                 } else {
                     p.style.cursor = "pointer";
-                    p.setAttribute("fill", "#d1d5db"); // Tailwind gray-300
+                    p.setAttribute("fill", "#d1d5db") // Tailwind gray-300
 
+                    const korName = p.dataset.kor
                     // 원래 fill 값을 저장
                     const originalFill = p.getAttribute("fill") || "#d1d5dc";
 
                     p.onmouseenter = () => {
                         const samePaths = svg.querySelectorAll(`path[id="${p.id}"]`)
-                        samePaths.forEach((path) => path.setAttribute("fill", "#3b82f6")) // Tailwind blue-500 
+                        samePaths.forEach((path) => path.setAttribute("fill", "#3b82f6")) // Tailwind blue-500
+                        tooltipRef.current.show(korName); 
                     }
                     p.onmouseleave = () => {
                         const samePaths = svg.querySelectorAll(`path[id="${p.id}"]`)
                         samePaths.forEach((path) => path.setAttribute("fill", originalFill))
+                        tooltipRef.current.hide();
                     }
                     p.onclick = () => {
                         console.log(ctpCode, p.id, data.CTP_KOR_NM, p.dataset.kor)
@@ -78,11 +85,14 @@ export default function SigunguMap({ ctpCode, data, onLoaded }) {
 
     const dataUrl = `/data/sigungu_with_data.svg?v=${process.env.NEXT_PUBLIC_BUILD_HASH}`
     return (
-        <object
-            ref={svgRef}
-            type="image/svg+xml"
-            data={dataUrl}
-            className="h-[608px]"
-        />
+        <div className="relative h-[608px]" ref={containerRef}>
+            <Tooltip ref={tooltipRef} />
+            <object
+                ref={svgRef}
+                type="image/svg+xml"
+                data={dataUrl}
+                className="h-[608px]"
+            />
+        </div>
     );
 }
