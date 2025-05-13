@@ -25,7 +25,7 @@ export default function InputText({
             type="text"
             disabled={disabled}
             className={clsx(baseStyle, dynamicStyle)}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             {...rest}
         />
     );
