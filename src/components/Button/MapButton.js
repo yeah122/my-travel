@@ -1,18 +1,21 @@
-'use client'
-
 import { Map } from "lucide-react";
+import Button from "@/components/Button/Button"
 
 export default function MapButton() {
+    // TODO map 팝업 화면으로 이동
     const onClick = e => {
         console.log("A")
     }
 
     return (
         <div className="fixed bottom-15 right-10 z-50">
-            <button className="text-2xl bg-white rounded-full shadow-md p-2 hover:bg-gray-200"
+            <Button
+                state="shadow"
+                width="none"
+                round="full"
                 onClick={onClick}>
                 <Map size={20} />
-            </button>
+            </Button>
         </div>
     )
 }
