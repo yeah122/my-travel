@@ -1,12 +1,17 @@
 'use client'
 
+import Button from "@/components/Button/Button";
 import { Plus } from "lucide-react";
-import Button from "@/components/Button/Button"
+import { useParams, useRouter } from "next/navigation";
 
 export default function PlusButton() {
-    // TODO write 글쓰기 화면으로 이동
+    const router = useRouter()
+    const param = useParams()
+
     const onClick = e => {
-        console.log("B")
+        const path = "/write" + (param.sigungu ? `?sigungu=${param.sigungu}` : "")
+        router.push(path)
+        // console.log(router)
     }
 
     return (

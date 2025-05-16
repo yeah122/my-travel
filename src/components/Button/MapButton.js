@@ -3,8 +3,8 @@ import Button from "@/components/Button/Button"
 
 export default function MapButton() {
     // TODO map 팝업 화면으로 이동
-    const onClick = e => {
-        console.log("A")
+    const onClick = e => {        
+        alert("맵 팝업 띄우기")
     }
 
     return (

@@ -1,10 +1,12 @@
 import { useRef, useEffect } from "react";
 import Tooltip from "@/components/Tooltip";
+import { useRouter } from "next/navigation";
 
 export default function SigunguMap({ ctpCode, data, onLoaded }) {
     const svgRef = useRef()
     const tooltipRef = useRef()
     const containerRef = useRef()
+    const router = useRouter()
 
     useEffect(() => {
         const objectElement = svgRef.current
@@ -39,6 +41,7 @@ export default function SigunguMap({ ctpCode, data, onLoaded }) {
                         tooltipRef.current.hide();
                     }
                     p.onclick = () => {
+                        router.push(`/list/${p.id}`)
                         console.log(ctpCode, p.id, data.CTP_KOR_NM, p.dataset.kor)
                     };
                 }
