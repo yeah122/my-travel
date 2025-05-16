@@ -2,20 +2,21 @@ import React from "react";
 import clsx from "clsx";
 import { getInputClassName } from "@/components/common/getInputClassName";
 
-export default function InputText({
+export default function InputTextArea({
     error = false,
     disabled = false,
+    placeholder = "",
     className = "",
     onChange,
     ...rest }) {
 
     return (
-        <input
-            type="text"
+        <textarea
+            placeholder="내용을 입력하세요."
             disabled={disabled}
-            className={getInputClassName({ error, disabled, className })}
+            className={getInputClassName({error, disabled, className: clsx("resize-none", className), height: "h-40"})}
             onChange={onChange}
-            {...rest}
-        />
+            {...rest}>
+        </textarea>
     );
 }
