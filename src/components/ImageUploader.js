@@ -1,7 +1,13 @@
-import { useRef, useState } from "react";
+import { useSyncedState } from "@/app/hooks/useSyncedState";
+import clsx from "clsx";
+import { useRef } from "react";
 
-export default function ImageUploader() {
-  const [images, setImages] = useState([]);
+export default function ImageUploader({
+  error,
+  onClick,
+  onChange }) {
+
+  const [images, setImages] = useSyncedState([], onChange);
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -15,12 +21,21 @@ export default function ImageUploader() {
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
+    onClick()
   };
 
   const handleRemove = (id) => {
     setImages((prev) => prev.filter((img) => img.id !== id));
     URL.revokeObjectURL(id); // 메모리 누수 방지
   };
+
+  const style = clsx(
+    "w-20 h-20 min-w-[80px] border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-50",
+    {
+      "border-gray-300": !error,
+      "border-red-400": error
+    }
+  )
 
   return (
     <div>
@@ -29,7 +44,7 @@ export default function ImageUploader() {
         {/* 업로드 버튼 */}
         <div
           onClick={handleUploadClick}
-          className="w-20 h-20 min-w-[80px] border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-50"
+          className={style}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

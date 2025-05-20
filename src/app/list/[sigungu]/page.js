@@ -18,7 +18,6 @@ export default function ListPage() {
   const subText = React.useMemo(() => getSidoName(param.sigungu.slice(0, 2)), [param.sigungu])
 
   const fetch = async () => {
-    console.log(param)
     // 로딩중~
     // TODO 백엔드 연동 - 데이터 연결 필요
     try {

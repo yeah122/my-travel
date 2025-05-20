@@ -233,6 +233,22 @@ function getHourInterval(time1, time2) {
     return parseInt((date2 - date1) / hour, 10);
 }
 
+/*
+  윤달 포함 달별 일수 Return
+*/
+function daysPerMonth() {
+    var DOMonth = new Array("31", "28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
+    var IDOMonth = new Array("31", "29", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
+
+    if ((arguments[0] % 4) == 0) {
+        if ((arguments[0] % 100) == 0 && (arguments[0] % 400) != 0)
+            return DOMonth[arguments[1] - 1];
+        return IDOMonth[arguments[1] - 1];
+    }
+    else
+        return DOMonth[arguments[1] - 1];
+}
+
 /**
  * 현재 시각을 Date 형식으로 리턴
 
@@ -336,23 +352,6 @@ function getDayOfWeek() {
     return week[day];
 }
 
-
-/*
-  윤달 포함 달별 일수 Return
-*/
-function daysPerMonth() {
-    var DOMonth = new Array("31", "28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
-    var IDOMonth = new Array("31", "29", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
-
-    if ((arguments[0] % 4) == 0) {
-        if ((arguments[0] % 100) == 0 && (arguments[0] % 400) != 0)
-            return DOMonth[arguments[1] - 1];
-        return IDOMonth[arguments[1] - 1];
-    }
-    else
-        return DOMonth[arguments[1] - 1];
-}
-
 /**
  * 날짜 포맷팅
  */
@@ -360,4 +359,11 @@ export function dateFormat(date_ , format = "YY.MM.DD") {
     if(!date_) return ""
     const date = dayjs(date_)
     return date.format(format)
+}
+
+/**
+ * 현재 날짜
+ */
+export function getNowDate(format) {
+    return dateFormat(new Date(), format)
 }
