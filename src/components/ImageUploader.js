@@ -1,4 +1,4 @@
-import { useSyncedState } from "@/app/hooks/useSyncedState";
+import { useSyncedState } from "@/hooks/useSyncedState";
 import clsx from "clsx";
 import { useRef } from "react";
 
